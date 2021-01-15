@@ -1,3 +1,5 @@
+package germanpersonexample
+
 interface IPerson { var name: String }
 
 class Person(override var name: String) : IPerson
