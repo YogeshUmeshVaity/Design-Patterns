@@ -5,22 +5,21 @@ import java.util.*
  */
 sealed class Booking
 
-object FlightBooking : Booking() {
-    fun bookFlight(details: BookingDetails) = println("The flight has been booked: $details")
+class FlightBooking(private val details: BookingDetails) : Booking() {
+    fun bookFlight() = println("The flight has been booked: $details")
 }
 
-object TrainBooking : Booking() {
-    fun bookTrain(details: BookingDetails) = println("The train has been booked: $details")
+class TrainBooking(private val details: BookingDetails) : Booking() {
+    fun bookTrain() = println("The train has been booked: $details")
 }
 
-object HotelBooking : Booking() {
-    fun bookHotel(details: BookingDetails) = println("The hotel has been booked: $details")
+class HotelBooking(private val details: BookingDetails) : Booking() {
+    fun bookHotel() = println("The hotel has been booked: $details")
 }
 
 data class BookingDetails(
     val fromLocation: String,
     val toLocation: String,
-    val date: Date,
     val personName: String,
 )
 
@@ -28,8 +27,14 @@ data class BookingDetails(
  * bookMyTrip() function is facade. It offers a simple interface to book one of the options and
  * internally calls the API's sub-systems.
  */
-fun bookMyTrip(booking: Booking, bookingDetails: BookingDetails) = when (booking) {
-    is FlightBooking -> booking.bookFlight(bookingDetails)
-    is TrainBooking -> booking.bookTrain(bookingDetails)
-    is HotelBooking -> booking.bookHotel(bookingDetails)
+fun bookMyTrip(booking: Booking) = when (booking) {
+    is FlightBooking -> booking.bookFlight()
+    is TrainBooking -> booking.bookTrain()
+    is HotelBooking -> booking.bookHotel()
+}
+
+/** Client */
+fun main() {
+    val details = BookingDetails("New York", "London", "John")
+    bookMyTrip(HotelBooking(details))
 }
