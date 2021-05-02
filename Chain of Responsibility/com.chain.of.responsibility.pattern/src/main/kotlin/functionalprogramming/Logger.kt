@@ -1,3 +1,5 @@
+package functionalprogramming
+
 import java.util.EnumSet
 
 /**
