@@ -28,7 +28,7 @@ fun interface Logger {
     fun message(message: String, severity: LogLevel)
 
     /**
-     * The chain building function takes the next handler to be executed
+     * The chain building function takes the next handler to be executed.
      */
     fun appendNext(nextLogger: Logger): Logger {
         return Logger { message, severity ->
@@ -47,7 +47,7 @@ fun interface Logger {
  *
  * The base handler usually contains a conditional statement to decide whether to move the next
  * handler or end the chain.^ The request forwarding mechanism is the default behaviour of the base
- * handler.
+ * handler. This eliminates the duplicated boilerplate code in every concrete handler.
  *
  * Usually, this class defines a field for storing a reference to the next handler(writeMessage
  * function in functional programming). The clients can build a chain by passing a handler to the
