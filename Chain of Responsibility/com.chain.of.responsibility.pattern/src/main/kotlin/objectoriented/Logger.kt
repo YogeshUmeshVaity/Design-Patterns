@@ -1,4 +1,4 @@
-package oop
+package objectoriented
 
 import functionalprogramming.LogLevel
 import java.util.*
@@ -9,10 +9,16 @@ abstract class Logger(vararg levels: LogLevel) {
     private var nextLogger: Logger? = null
     private val specifiedLevelsSet = EnumSet.copyOf(listOf(*levels))
 
+    // This is the chain building function.
     fun appendNext(nextLogger: Logger) {
         this.nextLogger = nextLogger
     }
 
+    // This function contains the code for checking the condition.
+    // This code is common, so have it in the base handler.
+    // This function also calls the implementation [log() function].
+    // This function passes the data to the next handler.
+    // This function acts as a execution starter.
     fun message(message: String, severity: LogLevel) {
         if (specifiedLevelsSet.contains(severity)) {
             log(message)
@@ -21,6 +27,8 @@ abstract class Logger(vararg levels: LogLevel) {
         nextLogger?.message(message, severity)
     }
 
+    // This function contains the what to do part for each concrete handler. The implementation
+    // varies depending on the method of logging.
     abstract fun log(message: String)
 }
 
@@ -51,6 +59,8 @@ fun main() {
     logger.appendNext(emailLogger)
     emailLogger.appendNext(fileLogger)
 
+    // The message is like an HTML request in Express framework. It contains the data to act upon.
+    // Here this data is just single String and LogLevel.
     // Handled by consoleLogger since it has been set to log all levels
     logger.message("Entering function ProcessOrder().", LogLevel.DEBUG)
     logger.message("Order record retrieved.", LogLevel.INFO)
